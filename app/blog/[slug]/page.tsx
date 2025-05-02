@@ -1,22 +1,37 @@
-type Params = {
-  params: {
-    slug: string;
-  };
-};
+import { Metadata } from 'next';
 
-export async function generateMetadata({ params }: Params) {
+interface PageParams {
+  slug: string;
+}
+
+interface SearchParams {
+  [key: string]: string | string[] | undefined;
+}
+
+interface PageProps {
+  params: PageParams;
+  searchParams?: SearchParams;
+}
+
+export async function generateMetadata({ 
+  params 
+}: PageProps): Promise<Metadata> {
   return { title: `Post: ${params.slug}` };
 }
 
-export default function Page({ params }: Params) {
+export default async function Page({ 
+  params 
+}: PageProps) {
   const { slug } = params;
-  if (!slug) {  // Handle the case where slug is not provided
-    return <h1>Slug not provided</h1>;  
+  if (!slug) {
+    return <h1>Slug not provided</h1>;
   }
-  // You can also handle the case where slug is an empty string or invalid value
-  return <>
-  <h1>Slug: {slug}</h1>  
-  <p>TestCase</p>
-  <p>Welcome to Ho Chi Minh</p>
-  </>;
+  
+  return (
+    <>
+      <h1>Slug: {slug}</h1>
+      <p>TestCase</p>
+      <p>Welcome to Ho Chi Minh</p>
+    </>
+  );
 }
